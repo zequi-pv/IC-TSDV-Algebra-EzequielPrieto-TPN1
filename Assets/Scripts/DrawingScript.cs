@@ -7,7 +7,8 @@ public class DrawingScript : MonoBehaviour
 
     [SerializeField] LineRenderer linePrefab;
     [SerializeField] LineRenderer line;
-    PolygonCollider2D polygonCollider;
+    //PolygonCollider2D polygonCollider;
+    EdgeCollider2D edgeCollider2D;
     Vector3 worldPosition;
     Vector3 mousePosition;
 
@@ -17,7 +18,8 @@ public class DrawingScript : MonoBehaviour
         line = Instantiate(linePrefab);
         line.loop = false;
 
-        polygonCollider = line.GetComponent<PolygonCollider2D>();
+        //polygonCollider = line.GetComponent<PolygonCollider2D>();
+        edgeCollider2D = line.GetComponent<EdgeCollider2D>();
     }
     void Update()
     {
@@ -44,7 +46,8 @@ public class DrawingScript : MonoBehaviour
             line.positionCount += 1;
             line.SetPosition(line.positionCount - 1, line.GetPosition(0));
             line.loop = true;
-            polygonCollider.SetPath(0, vertices);
+            edgeCollider2D.SetPoints(vertices);
+            //polygonCollider.SetPath(0, vertices);
             if (line.positionCount > 3)
                 line = Instantiate(linePrefab);
         }
