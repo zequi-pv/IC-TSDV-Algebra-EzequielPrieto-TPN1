@@ -20,28 +20,29 @@ public class BallController : MonoBehaviour
 
     void CheckInside()
     {
-        int count = 0;
-        List<RaycastHit2D> hits = new List<RaycastHit2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-            filter.NoFilter();
-        Vector3 origin = new Vector3(0, 0, 0);
-        Vector3 finalPosition = new Vector3(transform.position.x + 30, transform.position.y, 0);
+        List<RaycastHit2D> raycastHit2Ds = new List<RaycastHit2D>();
 
-            Physics2D.Raycast(origin, Vector2.right, filter, hits, 1000);
-        //while (origin != finalPosition)
-        //{
-        //    if ()
-        //    {
-        //        origin.x = hit.point.x + 0.5f;
-        //        count++;
-        //        Debug.Log("HIT");
-        //    }
-        //    else
-        //        origin = finalPosition;
-        //}
-        Debug.Log(hits.Count);
+        RaycastHit2D hit;
+        Vector2 origin = transform.position;
 
-        if (hits.Count % 2 != 0)
+        string name = null;
+        while (origin.x < 8)
+        {
+            if (Physics2D.Raycast(origin, Vector2.right))
+            {
+                hit = Physics2D.Raycast(origin, Vector2.right);
+                if (name == null || hit.transform.name == name)
+                {
+                    raycastHit2Ds.Add(hit);
+                    origin.x = hit.point.x + 0.2f;
+                    name = hit.transform.name;
+                }
+            }
+            else
+                break;
+        }
+
+        if (raycastHit2Ds.Count % 2 != 0)
             GetComponent<SpriteRenderer>().color = Color.green;
         else
             GetComponent<SpriteRenderer>().color = Color.white;
